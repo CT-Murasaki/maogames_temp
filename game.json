@@ -28,35 +28,53 @@
 		},
 		"body1": {
 			"type": "image",
-			"width": 509,
+			"width": 566,
 			"height": 720,
-			"path": "image/mainbody1.png"
+			"path": "image/main1.png"
 		},
 		"body2": {
 			"type": "image",
 			"width": 509,
 			"height": 720,
-			"path": "image/mainbody2.png"
+			"path": "image/main2.png"
 		},
 		"body3": {
 			"type": "image",
 			"width": 509,
 			"height": 720,
-			"path": "image/mainbody3.png"
+			"path": "image/main3.png"
 		},
-		"find1": {
+		"body4": {
 			"type": "image",
-			"width": 109,
-			"height": 75,
-			"path": "image/find.png"
+			"width": 566,
+			"height": 720,
+			"path": "image/main4.png"
 		},
-		"find2": {
+		"body5": {
 			"type": "image",
-			"width": 109,
-			"height": 75,
-			"path": "image/find.png"
+			"width": 509,
+			"height": 720,
+			"path": "image/main5.png"
 		},
-		"find3": {
+		"body6": {
+			"type": "image",
+			"width": 509,
+			"height": 720,
+			"path": "image/main6.png"
+		},
+		"body7": {
+			"type": "image",
+			"width": 509,
+			"height": 720,
+			"path": "image/main7.png"
+		},
+		"body8": {
+			"type": "image",
+			"width": 509,
+			"height": 720,
+			"path": "image/main8.png"
+		},
+		"find": {
 			"type": "image",
 			"width": 109,
 			"height": 75,

@@ -34,13 +34,13 @@
 		},
 		"body2": {
 			"type": "image",
-			"width": 509,
+			"width": 566,
 			"height": 720,
 			"path": "image/main2.png"
 		},
 		"body3": {
 			"type": "image",
-			"width": 509,
+			"width": 566,
 			"height": 720,
 			"path": "image/main3.png"
 		},
@@ -52,25 +52,25 @@
 		},
 		"body5": {
 			"type": "image",
-			"width": 509,
+			"width": 566,
 			"height": 720,
 			"path": "image/main5.png"
 		},
 		"body6": {
 			"type": "image",
-			"width": 509,
+			"width": 566,
 			"height": 720,
 			"path": "image/main6.png"
 		},
 		"body7": {
 			"type": "image",
-			"width": 509,
+			"width": 566,
 			"height": 720,
 			"path": "image/main7.png"
 		},
 		"body8": {
 			"type": "image",
-			"width": 509,
+			"width": 566,
 			"height": 720,
 			"path": "image/main8.png"
 		},

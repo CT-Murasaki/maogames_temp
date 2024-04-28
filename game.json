@@ -74,12 +74,6 @@
 			"height": 720,
 			"path": "image/main8.png"
 		},
-		"find": {
-			"type": "image",
-			"width": 109,
-			"height": 75,
-			"path": "image/find.png"
-		},
 		"font_round": {
 			"type": "image",
 			"width": 1024,

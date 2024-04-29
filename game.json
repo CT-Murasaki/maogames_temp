@@ -26,6 +26,18 @@
 			"height": 720,
 			"path": "image/haikei.png"
 		},
+		"yuzai": {
+			"type": "image",
+			"width": 140,
+			"height": 200,
+			"path": "image/yuzai.png"
+		},
+		"muzai": {
+			"type": "image",
+			"width": 140,
+			"height": 200,
+			"path": "image/muzai.png"
+		},
 		"body1": {
 			"type": "image",
 			"width": 566,
@@ -86,15 +98,21 @@
 		},
 		"bgm": {
 			"type": "audio",
-			"path": "audio/bgm",
+			"path": "audio/BGM182-161031-banbanjikenpou-mp3",
 			"systemId": "music",
 			"duration": 15486
 		},
-		"se_finish": {
+		"se_finish1": {
 			"type": "audio",
-			"path": "audio/se_finish",
+			"path": "audio/se_finish1",
 			"systemId": "sound",
-			"duration": 1080
+			"duration": 2000
+		},
+		"se_finish2": {
+			"type": "audio",
+			"path": "audio/se_finish2",
+			"systemId": "sound",
+			"duration": 2000
 		},
 		"se_hazure": {
 			"type": "audio",
@@ -106,7 +124,13 @@
 			"type": "audio",
 			"path": "audio/se_seikai",
 			"systemId": "sound",
-			"duration": 2171
+			"duration": 1000
+		},
+		"se_seikai2": {
+			"type": "audio",
+			"path": "audio/se_seikai2",
+			"systemId": "sound",
+			"duration": 1000
 		},
 		"se_start": {
 			"type": "audio",
@@ -118,12 +142,12 @@
 	"moduleMainScripts": {},
 	"environment": {
 		"sandbox-runtime": "3",
-		"niconico": {
+		"nicolive": {
 			"supportedModes": [
 				"ranking"
 			],
 			"preferredSessionParameters": {
-				"totalTimeLimit": 87
+				"totalTimeLimit": 70
 			}
 		}
 	}

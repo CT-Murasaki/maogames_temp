@@ -47,6 +47,7 @@ function makescene(param) {
         let startstate = false;
         let resultstate = false;
         let resultclose = false;
+        let waitthen = false;
         let finishstate = false;
         let myhp = 9999;
         let partsId = 0;
@@ -54,6 +55,7 @@ function makescene(param) {
         
         let bodyNo = 1;
         let bodytotal = 6;
+        let waittime = 0;
         let hitpoint = (bodytotal - 1) * 10;
 
         // レイヤーの生成
@@ -124,15 +126,17 @@ function makescene(param) {
        
         //体を触ると減点
         backbody.onPointDown.add(function(){
-            scene.assets["se_hazure"].play().changeVolume(0.6);
-            myhp -= getrandom(1000,2000,-1);
-            if (myhp < 0){
-                backbody.src = scene.assets["body8"];
-                resultstate = true;
-                myhp = 0;
-                scene.assets["se_finish2"].play().changeVolume(0.6);
+            if (waitthen == false){
+                scene.assets["se_hazure"].play().changeVolume(0.6);
+                myhp -= getrandom(1000,2000,-1);
+                if (myhp < 0){
+                    backbody.src = scene.assets["body8"];
+                    resultstate = true;
+                    myhp = 0;
+                    scene.assets["se_finish2"].play().changeVolume(0.6);
+                }
+                myhpLabel.text = "HP:" + myhp;
             }
-            myhpLabel.text = "HP:" + myhp;
         });
 
         //ターゲットを触るとスコアアップ
@@ -143,6 +147,8 @@ function makescene(param) {
             if (hitpoint % 10 == 0 && hitpoint != 0){
                 bodyNo += 1;
                 backbody.src = scene.assets["body" + bodyNo];
+                waitthen = true;
+                backbody.touchable = false;
                 switch (bodyNo){
                     case 3:
                         t_list[1] = [406,250,106,129];
@@ -287,6 +293,15 @@ function makescene(param) {
 
         // ■■■■■■■■■■■■　 メイン描画　　■■■■■■■■■■■■
         scene.onUpdate.add(function () {//時間経過
+            if (waitthen == true){
+                waittime += 1 / g.game.fps;
+                if (waittime >= 1){
+                    waitthen = false;
+                    waittime = 0;
+                    backbody.touchable = true;
+                }
+            }
+
             if (startstate == true && finishstate == false && resultstate == false) { 
                 gametime += 1 / g.game.fps; 
 
@@ -351,7 +366,7 @@ function makescene(param) {
                 else{
                     sinImage.src = scene.assets["muzai"];
                 }
-                g.game.vars.gameState.score = (destint + t_bonus + l_bonus) * 10;
+                g.game.vars.gameState.score = Math.floor((destint + t_bonus + l_bonus) * 10);
 
                 cleseLabel.opacity = 0
                 cleseLabel.touchable = true;

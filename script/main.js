@@ -24,6 +24,8 @@ function makescene(param) {
             "body6",
             "body7",
             "body8",
+            "megane",
+            "megane_button",
             "yuzai",
             "muzai",
             "bgm",
@@ -48,6 +50,7 @@ function makescene(param) {
         let resultstate = false;
         let resultclose = false;
         let waitthen = false;
+        let meganestate = false;
         let finishstate = false;
         let myhp = 9999;
         let partsId = 0;
@@ -97,14 +100,28 @@ function makescene(param) {
             font: font1, fontSize: font1.size / 2, textColor: "dimgray", x: 0.65 * g.game.width,opacity: 0});
         scene.append(timeLabel);
 
-        //背景画像
+        //背景画像S
         let background = new g.FrameSprite({scene: scene, src: scene.assets["haikei"], parent: backlayer,
             x: g.game.width/2, y: g.game.height/2,anchorX: 0.5, anchorY: 0.5, opacity: 0});
 
         // ターゲット表示用ラベル
+        //メガネオンオフボタン
+        let meganetoggle = new g.FrameSprite({scene: scene, src: scene.assets["megane_button"],x: g.game.width * 0.9,parent: bodylayer, opacity: 1, touchable: true});
+        meganetoggle.onPointDown.add(function(){
+            if(meganestate == true){
+                meganestate = false;
+            }
+            else{
+                meganestate = true;
+            }
+        });
+
         //体
         let backbody = new g.FrameSprite({scene: scene, src: scene.assets["body" + bodyNo], parent: bodylayer,
             x: g.game.width/2, y: g.game.height/2,anchorX: 0.5, anchorY: 0.5, opacity: 0, touchable: false});
+
+        let bodymegane = new g.FrameSprite({scene: scene, src: scene.assets["megane"], parent: buttonlayer,
+            x: 560, y: 155,anchorX: 0.5, anchorY: 0.5, opacity: 0, touchable: false});
         
         //ターゲットラベル
         let t_list = [];
@@ -293,6 +310,13 @@ function makescene(param) {
 
         // ■■■■■■■■■■■■　 メイン描画　　■■■■■■■■■■■■
         scene.onUpdate.add(function () {//時間経過
+            if (meganestate == true){
+                bodymegane.opacity = 1;
+            }
+            else{
+                bodymegane.opacity = 0;
+            }
+
             if (waitthen == true){
                 waittime += 1 / g.game.fps;
                 if (waittime >= 1){
@@ -397,6 +421,7 @@ function makescene(param) {
 
             startimage.invalidate();
             sinImage.invalidate();
+            bodymegane.invalidate();
             RectObj.forEach(function(Obj){Obj.modified();});
             mainObj.forEach(function(Obj){Obj.invalidate();});
             resultObj.forEach(function(Obj){Obj.invalidate();});

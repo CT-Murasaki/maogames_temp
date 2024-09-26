@@ -26,6 +26,18 @@
 			"height": 720,
 			"path": "image/haikei.png"
 		},
+		"haikei_kapu": {
+			"type": "image",
+			"width": 100,
+			"height": 80,
+			"path": "image/kapuseru1.png"
+		},
+		"haikei_kapu2": {
+			"type": "image",
+			"width": 100,
+			"height": 80,
+			"path": "image/kapuseru2.png"
+		},
 		"yuzai": {
 			"type": "image",
 			"width": 140,
@@ -88,8 +100,8 @@
 		},
 		"megane": {
 			"type": "image",
-			"width": 192,
-			"height": 192,
+			"width": 156,
+			"height": 156,
 			"path": "image/megane.png"
 		},
 		"megane_button": {
@@ -97,6 +109,36 @@
 			"width": 100,
 			"height": 100,
 			"path": "image/megane2.png"
+		},
+		"kiri": {
+			"type": "image",
+			"width": 74,
+			"height": 258,
+			"path": "image/kiri.png"
+		},
+		"kiri_mono": {
+			"type": "image",
+			"width": 74,
+			"height": 258,
+			"path": "image/kiri_mono.png"
+		},
+		"result_button": {
+			"type": "image",
+			"width": 100,
+			"height": 100,
+			"path": "image/result_return.png"
+		},
+		"yazi_migi": {
+			"type": "image",
+			"width": 64,
+			"height": 64,
+			"path": "image/migi.png"
+		},
+		"yazi_hidari": {
+			"type": "image",
+			"width": 64,
+			"height": 64,
+			"path": "image/hidari.png"
 		},
 		"font_round": {
 			"type": "image",
@@ -149,6 +191,24 @@
 			"path": "audio/se_start",
 			"systemId": "sound",
 			"duration": 1701
+		},
+		"damage": {
+			"type": "audio",
+			"path": "audio/damage",
+			"systemId": "sound",
+			"duration": 2000
+		},
+		"bo_finish1": {
+			"type": "audio",
+			"path": "audio/bo_finish1",
+			"systemId": "sound",
+			"duration": 2000
+		},
+		"bo_finish2": {
+			"type": "audio",
+			"path": "audio/bo_finish2",
+			"systemId": "sound",
+			"duration": 2000
 		}
 	},
 	"moduleMainScripts": {},
@@ -159,7 +219,7 @@
 				"ranking"
 			],
 			"preferredSessionParameters": {
-				"totalTimeLimit": 70
+				"totalTimeLimit": 75
 			}
 		}
 	}

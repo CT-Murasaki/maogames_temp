@@ -16,6 +16,8 @@ function makescene(param) {
             "font_round",
             "font_round_glyphs",
             "haikei",
+            "haikei_kapu",
+            "haikei_kapu2",
             "body1",
             "body2",
             "body3",
@@ -24,8 +26,13 @@ function makescene(param) {
             "body6",
             "body7",
             "body8",
+            "kiri",
+            "kiri_mono",
             "megane",
             "megane_button",
+            "result_button",
+            "yazi_migi",
+            "yazi_hidari",
             "yuzai",
             "muzai",
             "bgm",
@@ -34,7 +41,10 @@ function makescene(param) {
             "se_seikai2",
             "se_hazure",
             "se_finish1",
-            "se_finish2"
+            "se_finish2",
+            //"damage",
+            //"bo_finish1",
+            //"bo_finish2"
 	    ]
     });
 
@@ -52,6 +62,7 @@ function makescene(param) {
         let waitthen = false;
         let meganestate = false;
         let finishstate = false;
+        let kapuchange = false;
         let myhp = 9999;
         let partsId = 0;
         let Nextparts = 0;
@@ -100,13 +111,20 @@ function makescene(param) {
             font: font1, fontSize: font1.size / 2, textColor: "dimgray", x: 0.65 * g.game.width,opacity: 0});
         scene.append(timeLabel);
 
-        //背景画像S
+        //背景画像
         let background = new g.FrameSprite({scene: scene, src: scene.assets["haikei"], parent: backlayer,
             x: g.game.width/2, y: g.game.height/2,anchorX: 0.5, anchorY: 0.5, opacity: 0});
 
+        //カプセル魚君
+        let kapuseruground = new g.FrameSprite({scene: scene, src: scene.assets["haikei_kapu"], parent: backlayer,
+            x: 770, y: 60, opacity: 0});
+
+        let kapuseruground2 = new g.FrameSprite({scene: scene, src: scene.assets["haikei_kapu2"], parent: backlayer,
+            x: 770, y: 60, opacity: 0});
+
         // ターゲット表示用ラベル
         //メガネオンオフボタン
-        let meganetoggle = new g.FrameSprite({scene: scene, src: scene.assets["megane_button"],x: g.game.width * 0.9,parent: bodylayer, opacity: 1, touchable: true});
+        let meganetoggle = new g.FrameSprite({scene: scene, src: scene.assets["megane_button"],x: g.game.width - 100,parent: bodylayer, opacity: 1, touchable: true});
         meganetoggle.onPointDown.add(function(){
             if(meganestate == true){
                 meganestate = false;
@@ -120,8 +138,9 @@ function makescene(param) {
         let backbody = new g.FrameSprite({scene: scene, src: scene.assets["body" + bodyNo], parent: bodylayer,
             x: g.game.width/2, y: g.game.height/2,anchorX: 0.5, anchorY: 0.5, opacity: 0, touchable: false});
 
+        //めがね
         let bodymegane = new g.FrameSprite({scene: scene, src: scene.assets["megane"], parent: buttonlayer,
-            x: 560, y: 155,anchorX: 0.5, anchorY: 0.5, opacity: 0, touchable: false});
+            x: 560, y: 158,anchorX: 0.5, anchorY: 0.5, opacity: 0, touchable: false});
         
         //ターゲットラベル
         let t_list = [];
@@ -148,9 +167,11 @@ function makescene(param) {
                 myhp -= getrandom(1000,2000,-1);
                 if (myhp < 0){
                     backbody.src = scene.assets["body8"];
+                    bodyNo = 8;
                     resultstate = true;
                     myhp = 0;
                     scene.assets["se_finish2"].play().changeVolume(0.6);
+                    //scene.assets["bo_finish2"].play().changeVolume(0.6);
                 }
                 myhpLabel.text = "HP:" + myhp;
             }
@@ -192,10 +213,10 @@ function makescene(param) {
 
                     case 5:
                         t_str[1] = "さきっちょ(左)";
-                        t_list[1] = [506,291,18,37];
+                        t_list[1] = [490,280,50,50];
     
                         t_str[2] = "さきっちょ(右)";
-                        t_list[2] = [612,289,20,38];
+                        t_list[2] = [600,280,50,50];
     
                         t_str[3] = "ぱんつ";
                         t_list[3] = [511,464,102,42];
@@ -220,12 +241,14 @@ function makescene(param) {
                 find.width = t_list[t_int][2];
                 find.height = t_list[t_int][3];
                 scene.assets["se_seikai2"].play().changeVolume(0.6);
+                //scene.assets["damage"].play().changeVolume(0.6);
             }
             else if (hitpoint == 0){
                 bodyNo += 1;
                 backbody.src = scene.assets["body" + bodyNo];
                 resultstate = true;
                 scene.assets["se_finish1"].play().changeVolume(0.6);
+                //scene.assets["bo_finish1"].play().changeVolume(0.6);
             }
             else{
                 scene.assets["se_seikai"].play().changeVolume(0.6);
@@ -246,8 +269,16 @@ function makescene(param) {
                 }
                 Nexthp = getrandom(1, 4, -1);
             }
-            
-            
+
+            let kapu_hantei = getrandom(1, 25, -1);
+            if (kapu_hantei == true){
+                if(kapuchange == true){
+                    kapuchange = false;
+                }
+                else{
+                    kapuchange = true;
+                }
+            }
         });
 
         // ターゲット名称ラベルヘッダー
@@ -272,31 +303,63 @@ function makescene(param) {
 
         // リザルト
         let resultLabel = new g.FilledRect({scene: scene,x: g.game.width/2, y: g.game.height/2,anchorX: 0.65, anchorY: 0.4,
-            width: g.game.width/2, height: g.game.height/2, cssColor: "black", parent: resultlayer, opacity: 0});
+            width: g.game.width/2, height: g.game.height/1.5, cssColor: "black", parent: resultlayer, opacity: 0});
         scene.append(resultLabel);
 
         let destLabel = new g.Label({parent: resultlayer,scene: scene,text: "装甲破壊率         " + 100.0, font: font,
-            textColor: "lavender",fontSize: font.size , x: g.game.width/3.5, y: g.game.height/2.5, opacity: 0});
+            textColor: "lavender",fontSize: font.size , x: g.game.width/3.5, y: g.game.height/3, opacity: 0});
         scene.append(destLabel);
 
         let t_bonusLabel = new g.Label({parent: resultlayer,scene: scene,text: "タイムボーナス   " + 10, font: font,
-            textColor: "lavender", fontSize: font.size , x: g.game.width/3.5, y: g.game.height/2.5, anchorY: -1.5, opacity: 0});
+            textColor: "lavender", fontSize: font.size , x: g.game.width/3.5, y: g.game.height/3, anchorY: -1.5, opacity: 0});
         scene.append(t_bonusLabel);
 
         let l_bonusLabel = new g.Label({parent: resultlayer,scene: scene,text: "ライフボーナス   " + 10, font: font,
-        textColor: "lavender",fontSize: font.size , x: g.game.width/3.5, y: g.game.height/2.5, anchorY: -3, opacity: 0});
+        textColor: "lavender",fontSize: font.size , x: g.game.width/3.5, y: g.game.height/3, anchorY: -3, opacity: 0});
         scene.append(l_bonusLabel);
 
+        let scoreLabel = new g.Label({parent: resultlayer,scene: scene,text: "SCORE:   " + 10, font: font,
+        textColor: "lavender",fontSize: font.size, x: g.game.width/3.5, y: g.game.height/3, anchorY: -5.5, opacity: 0});
+        scene.append(scoreLabel);
+
         let cleseLabel = new g.FilledRect({parent: resultlayer2,scene: scene,touchable: false,width: 70, height: 70,
-            cssColor: "red", x: g.game.width/1.8, y: g.game.height/1.7, anchorX: -1.2, anchorY: 3, opacity: 0});
+            cssColor: "red", x: g.game.width/1.8, y: g.game.height/1.7, anchorX: -1.2, anchorY: 4, opacity: 0});
         scene.append(cleseLabel);
 
         let cleseText = new g.Label({parent: resultlayer2,scene: scene,text: "✖", font: font,touchable: false,
-        textColor: "lavender",fontSize: font.size , x: g.game.width/1.6, y: g.game.height/2, anchorX: -0.3, anchorY: 3, opacity: 0});
+        textColor: "lavender",fontSize: font.size , x: g.game.width/1.6, y: g.game.height/2, anchorX: -0.3, anchorY: 4, opacity: 0});
         scene.append(cleseText);
         cleseLabel.onPointDown.add(function(){
             resultclose = true;
         })
+
+        let opentext = new g.FrameSprite({scene: scene, src: scene.assets["result_button"],
+            x: g.game.width - 64, y: g.game.height - 64, parent: bodylayer, opacity: 0, touchable: false});
+        opentext.onPointDown.add(function(){
+            resultclose = false
+        });
+
+        let hidari_button = new g.FrameSprite({scene: scene, src: scene.assets["yazi_hidari"],
+            x: 0, y: 0, parent: bodylayer, opacity: 0, touchable: true});
+        hidari_button.onPointDown.add(function(){
+            if (bodyNo == 1){
+                bodyNo = 8
+            }
+            else{
+                bodyNo -= 1
+            }
+        });
+
+        let migi_button = new g.FrameSprite({scene: scene, src: scene.assets["yazi_migi"],
+            x: 100, y: 0, parent: bodylayer, opacity: 0, touchable: true});
+        migi_button.onPointDown.add(function(){
+            if (bodyNo == 8){
+                bodyNo = 1
+            }
+            else{
+                bodyNo += 1
+            }
+        });
 
         let sinImage = new g.FrameSprite({scene: scene, src: scene.assets["yuzai"], parent: resultlayer2,
         x: g.game.width/4, y: g.game.height/2,anchorX: 0.65, anchorY: 0.35, opacity: 0, touchable: false});
@@ -304,8 +367,10 @@ function makescene(param) {
         //一括処理用
         let mainObj = [background,myhpLabel,timeLabel,backbody,
                         TargetHeder,TargetLabel,NextHerder,NextLabel];
+        let kapobj = [kapuseruground,kapuseruground2]
         let TargetObj = [TargetHeder,TargetLabel,NextHerder,NextLabel,myhpLabel,timeLabel];
-        let resultObj = [destLabel,t_bonusLabel,l_bonusLabel,cleseText];
+        let resultObj = [destLabel,t_bonusLabel,l_bonusLabel,cleseText,scoreLabel];
+        let yaziObj = [hidari_button,migi_button]
         let RectObj = [find,resultLabel,cleseLabel]
 
         // ■■■■■■■■■■■■　 メイン描画　　■■■■■■■■■■■■
@@ -337,12 +402,22 @@ function makescene(param) {
                 find.touchable = true;
                 TargetLabel.text = getbodyName(t_str[t_int],t_hp);
                 NextLabel.text = getbodyName(t_str[Nextparts],Nexthp);
+                if (kapuchange == false){
+                    kapuseruground.opacity = 1;
+                    kapuseruground2.opacity = 0;
+                }
+                else{
+                    kapuseruground.opacity = 0;
+                    kapuseruground2.opacity = 1;
+                }
 
                 if (gametime >= 60){
                     gametime = 60;
                     backbody.src = scene.assets["body8"];
+                    bodyNo = 8
                     resultstate = true;
                     scene.assets["se_finish2"].play().changeVolume(0.3);
+                    //scene.assets["bo_finish2"].play().changeVolume(0.6);
                 }
                 else{
                     timeLabel.text = "TIME: " + String((Math.floor((60 - gametime) * 10) / 10));
@@ -390,21 +465,30 @@ function makescene(param) {
                 else{
                     sinImage.src = scene.assets["muzai"];
                 }
-                g.game.vars.gameState.score = Math.floor((destint + t_bonus + l_bonus) * 10);
+                let scorevar = Math.floor((destint + t_bonus + l_bonus) * 10);
+                for (let i = 1; i <= 5; i++){
+                    g.game.vars.gameState.score = scorevar;
+                }
+                scoreLabel.text = "SCORE: " + String(g.game.vars.gameState.score);
 
                 cleseLabel.opacity = 0
                 cleseLabel.touchable = true;
                 sinImage.opacity = 1;
                 if (resultclose == true){
                     resultObj.forEach(function(Obj){Obj.opacity = 0;});
+                    yaziObj.forEach(function(Obj){Obj.opacity = 1;});
                     resultLabel.opacity = 0;
-                    bodyNo += 1;
-                    if (destint == 100){
-                        backbody.src = scene.assets["body7"];
-                    }
+                    opentext.opacity = 1;
+                    opentext.touchable = true;
+                    backbody.src = scene.assets["body" + bodyNo];
                 }
                 else{
+                    if (destint == 100){
+                        backbody.src = scene.assets["body6"];
+                    }
                     resultLabel.opacity = 0.5;
+                    opentext.opacity = 0;
+                    opentext.touchable = false;
                     resultObj.forEach(function(Obj){Obj.opacity = 1;});
                 }
             }
@@ -415,6 +499,7 @@ function makescene(param) {
                     startimage.opacity = 1;
                 }
                 else{
+                    meganetoggle.opacity = 0;
                     finishstate = true
                 };
             };
@@ -424,6 +509,7 @@ function makescene(param) {
             bodymegane.invalidate();
             RectObj.forEach(function(Obj){Obj.modified();});
             mainObj.forEach(function(Obj){Obj.invalidate();});
+            kapobj.forEach(function(Obj){Obj.invalidate();});
             resultObj.forEach(function(Obj){Obj.invalidate();});
         });
     });

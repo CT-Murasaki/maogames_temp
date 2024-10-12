@@ -98,6 +98,12 @@
 			"height": 720,
 			"path": "image/main8.png"
 		},
+		"body9": {
+			"type": "image",
+			"width": 566,
+			"height": 720,
+			"path": "image/main9.png"
+		},
 		"megane": {
 			"type": "image",
 			"width": 156,

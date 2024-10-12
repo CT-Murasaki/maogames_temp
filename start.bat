@@ -1,2 +1,2 @@
 cd "C:\niconicogame\maoyuni"
-akashic-sandbox
+akashic serve --target-service nicolive
